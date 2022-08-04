@@ -5,4 +5,5 @@ $ poetry install
 $ poetry shell
 $ spoine
 > my program
+$ pytest
 ```
