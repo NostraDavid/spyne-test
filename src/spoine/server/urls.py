@@ -14,10 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from spyne.server.django import DjangoView
 from django.urls import path
-from spoine.server.service import spoine_app
+from spoine.server.services import spoine_service, app
 
 urlpatterns = [
     # path("admin/", admin.site.urls),
-    path(r"", spoine_app),
+    path(r"", spoine_service),
+    # path(r"say_hello", spoine_service),
+    # path(r"^api/", DjangoView.as_view(application=app)),
 ]

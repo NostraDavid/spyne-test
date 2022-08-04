@@ -1,4 +1,4 @@
-from spyne import Application, ServiceBase, rpc
+from spyne import Application, Service, ServiceBase, rpc, Unicode, Integer, Iterable
 from spyne.server.django import DjangoApplication
 from django.views.decorators.csrf import csrf_exempt
 from spyne.protocol.soap import Soap11
@@ -14,11 +14,19 @@ class SpoineService(ServiceBase):
         return resp
 
 
-spoine_application = Application(
+class HelloWorldService(Service):
+    @rpc(Unicode, Integer, _returns=Iterable(Unicode))
+    def say_hello(ctx, name, times):
+        for i in range(times):
+            yield "Hello, %s" % name
+
+
+app = Application(
+    # services=[SpoineService, HelloWorldService],
     services=[SpoineService],
     tns="target_namespace",
     name="SpoineService",
     in_protocol=Soap11(),
     out_protocol=Soap11(),
 )
-spoine_app = csrf_exempt(DjangoApplication(spoine_application))
+spoine_service = csrf_exempt(DjangoApplication(app))
